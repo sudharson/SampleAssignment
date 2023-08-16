@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  Assignment
+
+  Created by Obulisudharson on 14/08/23.
+  
+*/
+
+"Ok" = "Ok";
+"List" = "List";
+"Cancel" = "Cancel";
+"GenericServerError" = "Something went wrong, please try later";
+"GenericNetworkError" = "Internet appears to be offline, please try later";
+"DataEmpty" = "Result not available for the searched keyword";
