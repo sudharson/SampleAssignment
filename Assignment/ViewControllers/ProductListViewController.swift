@@ -126,7 +126,7 @@ class ProductListViewController: UIViewController {
                 self?.indicator?.stopAnimating()
                 if isChanged == true {
                     self?.productsTableView.reloadData()
-                    if(self?.productListViewModel?.itemsNew?.count ?? 0) == 0 {
+                    if(self?.productListViewModel?.groupedProductsList?.count ?? 0) == 0 {
                         self?.productsTableView.showEmptyAlert()
                     }
                     else {
@@ -157,7 +157,7 @@ extension ProductListViewController: UITableViewDataSource, UITableViewDelegate 
     
     func numberOfSections(in tableView: UITableView) -> Int {
         if (isGroupedList ?? false) == true {
-            return productListViewModel?.itemsNew?.count ?? 0
+            return productListViewModel?.groupedProductsList?.count ?? 0
         } else {
             return 1
         }
@@ -165,9 +165,9 @@ extension ProductListViewController: UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (isGroupedList ?? false) == true {
-            return productListViewModel?.itemsNew?[section].values.count ?? 0
+            return productListViewModel?.groupedProductsList?[section].values.count ?? 0
         } else {
-            return productListViewModel?.items.count ?? 0
+            return productListViewModel?.unGroupedProductsList.count ?? 0
         }
     }
     
@@ -177,9 +177,9 @@ extension ProductListViewController: UITableViewDataSource, UITableViewDelegate 
                                                         fatalError("Unable to dequeue ContactTableViewCell.")
         }
         if (isGroupedList ?? false) == true {
-            cell.populateData(item: productListViewModel?.itemsNew?[indexPath.section].values[indexPath.row])
+            cell.populateData(item: productListViewModel?.groupedProductsList?[indexPath.section].values[indexPath.row])
         } else {
-            cell.populateData(item: productListViewModel?.items[indexPath.row])
+            cell.populateData(item: productListViewModel?.unGroupedProductsList[indexPath.row])
         }
         return cell
     }
@@ -201,7 +201,7 @@ extension ProductListViewController: UITableViewDataSource, UITableViewDelegate 
         
         let label = UILabel()
         label.frame = CGRect.init(x: 5, y: 5, width: headerView.frame.width-10, height: headerView.frame.height-10)
-        label.text = productListViewModel?.itemsNew?[section].key.uppercased() ?? ""
+        label.text = productListViewModel?.groupedProductsList?[section].key.uppercased() ?? ""
         label.font = .systemFont(ofSize: 16)
         label.textColor = .darkGray
         headerView.backgroundColor = .white
@@ -212,9 +212,9 @@ extension ProductListViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let product: ProductModel?
         if (isGroupedList ?? false) == true {
-            product = productListViewModel?.itemsNew?[indexPath.section].values[indexPath.row]
+            product = productListViewModel?.groupedProductsList?[indexPath.section].values[indexPath.row]
         } else {
-            product = productListViewModel?.items[indexPath.row]
+            product = productListViewModel?.unGroupedProductsList[indexPath.row]
         }
         self.navigateToProductDetails(product: product)
     }
